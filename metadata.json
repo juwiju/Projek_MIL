@@ -1,0 +1,6 @@
+{
+  "name": "AWARE - Game Edukasi Literasi Media",
+  "description": "Sebuah game edukasi interaktif tentang literasi media, verifikasi informasi lowongan kerja, dan tanggung jawab content creator bersama Milo si Berang-berang.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
