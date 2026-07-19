@@ -17,7 +17,7 @@ interface ChapterMetadata {
   icon: string;
   color: string;
   borderColor: string;
-}
+} 
 
 const chaptersMeta: ChapterMetadata[] = [
   {
