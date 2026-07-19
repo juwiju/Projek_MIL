@@ -47,3 +47,62 @@ export interface SavedReflection {
   stats: GameStats;
   date: string;
 }
+
+// --- Tambahan baru untuk sistem lokalisasi halaman ---
+
+export interface ChoiceOption {
+  id: 'A' | 'B';
+  text: {
+    id: string;
+    en: string;
+  };
+}
+
+export interface FeedComment {
+  user: string;
+  text: {
+    id: string;
+    en: string;
+  };
+  isNegative?: boolean;
+}
+
+export interface ChapterDetails {
+  id: string;
+  name: { id: string; en: string };
+  title: { id: string; en: string };
+  miloReaction: { id: string; en: string };
+  followersDelta: number;
+  trustDelta: number;
+  reflectionCardTitle: { id: string; en: string };
+  reflectionCardSubtitle: { id: string; en: string };
+  reflectionQuestion: { id: string; en: string };
+  options: {
+    id: Array<{ label: string; action: string }>;
+    en: Array<{ label: string; action: string }>;
+  };
+  
+  // Dialog dan refleksi setelah memilih 'continue' (jalur utama)
+  secondMiloText: { id: string; en: string };
+  secondQuestion: { id: string; en: string };
+  secondReflectionTitle: { id: string; en: string };
+  secondReflectionSubtitle: { id: string; en: string };
+  secondReflectionQuestion: { id: string; en: string };
+
+  // Tambahan opsional (?) untuk menampung jalur 'repent' dan 'stop' agar tidak error
+  secondMiloText_repent?: { id: string; en: string };
+  secondQuestion_repent?: { id: string; en: string };
+  secondReflectionTitle_repent?: { id: string; en: string };
+  secondReflectionSubtitle_repent?: { id: string; en: string };
+  secondReflectionQuestion_repent?: { id: string; en: string };
+
+  secondMiloText_stop?: { id: string; en: string };
+  secondReflectionTitle_stop?: { id: string; en: string };
+  secondReflectionSubtitle_stop?: { id: string; en: string };
+  secondReflectionQuestion_stop?: { id: string; en: string };
+}
+
+// Menampung semua key dinamis dari gabungan halaman 1 sampai 7
+export interface TranslationSet {
+  [key: string]: any;
+}
