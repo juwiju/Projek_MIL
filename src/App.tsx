@@ -23,6 +23,7 @@ import { DialogBubble } from './components/DialogBubble';
 import { PhoneMockup } from './components/PhoneMockup';
 import { ReflectionCard } from './components/ReflectionCard';
 import { ChapterSelection } from './components/ChapterSelection';
+import badgeImage from './asset/gambar/2.png';
 
 const USERNAME_OPTIONS = [
   'LambuKetupat',
@@ -464,7 +465,7 @@ export default function App() {
               <div className="lg:col-span-7 space-y-6 md:space-y-8">
                 {/* Otter Badge with text */}
                 <div className="inline-flex items-center gap-2 bg-[#B4C285]/20 border-2 border-[#B4C285] px-3.5 py-1.5 rounded-full">
-                  <span className="text-lg">🦦</span>
+                  <img src={badgeImage} alt="Milo badge" className="w-6 h-6 object-contain rounded-full bg-white p-0.5" />
                   <span className="font-mono text-xs font-bold text-[#242D13] tracking-wide uppercase">
                     Literacy Adventure with Milo
                   </span>
