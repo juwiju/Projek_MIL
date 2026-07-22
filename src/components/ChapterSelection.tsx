@@ -12,6 +12,7 @@ interface ChapterSelectionProps {
   savedReflections: SavedReflection[];
   onBackToHome: () => void;
   onSelectSavedReflection?: (reflection: SavedReflection) => void;
+  badgeImage?: string;
 }
 
 interface ChapterMetadata {
@@ -28,7 +29,7 @@ const chaptersMeta: ChapterMetadata[] = [
     id: 'chaos_catalyst',
     name: { id: "The Chaos Catalyst", en: "The Chaos Catalyst" },
     subtitle: { id: "Chapter 1: Menyebarkan Hoax/Scam", en: "Chapter 1: Spreading Hoax/Scam" },
-    icon: ChaosCatalystImg, // Menggunakan variabel import yang benar
+    icon: ChaosCatalystImg,
     color: "bg-[#FAD2E1]",
     borderColor: "border-[#E85D04]"
   },
@@ -36,7 +37,7 @@ const chaptersMeta: ChapterMetadata[] = [
     id: 'sensational_truth',
     name: { id: "Sensationalized Truth", en: "Sensationalized Truth" },
     subtitle: { id: "Chapter 2: Clickbait Berujung Ribut", en: "Chapter 2: Clickbait Causes Drama" },
-    icon: SensationalTruthImg, // Menggunakan variabel import yang benar
+    icon: SensationalTruthImg,
     color: "bg-[#FFF1C5]",
     borderColor: "border-[#F4A261]"
   },
@@ -44,7 +45,7 @@ const chaptersMeta: ChapterMetadata[] = [
     id: 'filtered_defense',
     name: { id: "Filtered Defense", en: "Filtered Defense" },
     subtitle: { id: "Chapter 3: Saring Sebelum Sharing", en: "Chapter 3: Filter Before Sharing" },
-    icon: FilteredDefenseImg, // Menggunakan variabel import yang benar
+    icon: FilteredDefenseImg,
     color: "bg-[#E2F0CB]",
     borderColor: "border-[#7BA65C]"
   },
@@ -52,7 +53,7 @@ const chaptersMeta: ChapterMetadata[] = [
     id: 'pristine_anchor',
     name: { id: "Pristine Anchor", en: "Pristine Anchor" },
     subtitle: { id: "Chapter 4: Jurnalis Kredibel Jujur", en: "Chapter 4: Credible & Honest Creator" },
-    icon: PristineAnchorImg, // Menggunakan variabel import yang benar
+    icon: PristineAnchorImg,
     color: "bg-[#C5D3E8]",
     borderColor: "border-[#3A86C8]"
   }
@@ -62,7 +63,7 @@ export const ChapterSelection: React.FC<ChapterSelectionProps> = ({
   lang,
   savedReflections,
   onBackToHome,
-  onSelectSavedReflection
+  onSelectSavedReflection,
 }) => {
   const isId = lang === 'id';
 
@@ -108,7 +109,7 @@ export const ChapterSelection: React.FC<ChapterSelectionProps> = ({
                 isUnlocked ? 'bg-white' : 'bg-[#DBC1AF]/50 text-gray-400'
               }`}>
                 {isUnlocked ? (
-                  // Cek apakah string berupa path eksternal/file asset untuk dirender sebagai gambar
+                  /* ✅ SEKARANG MENGGUNAKAN ch.icon MASING-MASING */
                   ch.icon.includes('/') || ch.icon.includes('.') || ch.icon.startsWith('data:') ? (
                     <img 
                       src={ch.icon} 
@@ -181,7 +182,6 @@ export const ChapterSelection: React.FC<ChapterSelectionProps> = ({
                 <div key={idx} className="p-4 rounded-2xl border-2 border-[#1E1915] bg-[#FAF6F0] flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="space-y-1 flex-1">
                     <div className="flex items-center gap-2">
-                      {/* Render Gambar Lencana Kecil di Buku Catatan Bawah */}
                       {meta?.icon && (meta.icon.includes('/') || meta.icon.includes('.') || meta.icon.startsWith('data:')) ? (
                         <img src={meta.icon} alt="" className="w-6 h-6 object-contain" />
                       ) : (

@@ -49,6 +49,13 @@ export const ChooseActionPage: React.FC<ChooseActionPageProps> = ({
   // Ambil teks lokalisasi sesuai bahasa aktif
   const t = LOCAL_TEXTS[lang];
 
+  // Handler saat opsi tindakan dipilih
+  const handleSelectOption = (id: 'A' | 'B') => {
+    playSynthSound('slide'); // Efek suara transisi
+    selectAction(id);         // Simpan pilihan opsi ('A' atau 'B')
+    setScreen('post_preview'); // Pindah ke halaman PostPreviewPage
+  };
+
   return (
     <motion.div
       key="choose_action"
@@ -73,7 +80,7 @@ export const ChooseActionPage: React.FC<ChooseActionPageProps> = ({
           <motion.div
             key={opt.id}
             whileHover={{ scale: 1.015, y: -2 }}
-            onClick={() => selectAction(opt.id)}
+            onClick={() => handleSelectOption(opt.id)} // 👈 Menggunakan handler baru
             className="p-6 md:p-8 rounded-3xl border-3 border-[#1E1915] bg-[#FFFDF9] shadow-[5px_5px_0px_0px_#1E1915] hover:bg-[#FAF6F0] cursor-pointer flex flex-col justify-between transition-all min-h-[160px] active:translate-x-[2px] active:translate-y-[2px]"
             id={`opt-action-${opt.id}`}
           >

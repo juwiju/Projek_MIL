@@ -13,7 +13,10 @@ import {
 // Hanya mengimpor naskah translasi navbar global jika masih ada di gameContent
 import { translations } from './data/gameContent';
 
-// IMPORT SEMUA HALAMAN DARI FOLDER PAGE
+// IMPORT ASET GAMBAR DARI PENGEMBANGAN TEMAN
+import badgeImage from './asset/gambar/2.png';
+
+// IMPORT SEMUA HALAMAN DARI FOLDER PAGE (MODULAR)
 import { HomePage } from './page/HomePage';
 import { MiloIntroPage } from './page/MiloIntroPage';
 import { NameSelectionPage } from './page/NameSelectionPage';
@@ -25,6 +28,7 @@ import { FeedOutcomePage } from './page/FeedOutcomePage';
 import { SecondChoicePage } from './page/SecondChoicePage';
 import { FinalReflectionPage } from './page/FinalReflectionPage';
 import { ChaptersPage } from './page/ChaptersPage';
+import { PostPreviewPage } from './page/PostPreviewPage';
 
 const USERNAME_OPTIONS = ['LambuKetupat', 'RealNews', 'SobatRebahan', 'InfoGercep', 'FaktaLokal'];
 
@@ -78,8 +82,10 @@ export default function App() {
       setCurrentMiloExpression('holding_phone');
     } else if (['choose_headline', 'choose_source', 'choose_action'].includes(screen)) {
       setCurrentMiloExpression('thinking');
+    } else if (screen === 'post_preview') {
+      setCurrentMiloExpression(actionChoice === 'A' ? 'wink' : 'happy');
     }
-  }, [screen]);
+  }, [screen, actionChoice]);
 
   // Audio Synth Generator (Web Audio API)
   const playSynthSound = (type: 'click' | 'success' | 'fail' | 'slide') => {
@@ -126,40 +132,31 @@ export default function App() {
   };
 
   // Algoritma evaluasi kombinasi pilihan 3 langkah cerita utama
-  //
-  // Sesuai wireframe: Chapter/cluster ditentukan oleh SUMBER x TINDAKAN (4 hasil bersih).
-  // JUDUL (headline) tidak mengubah chapter, melainkan hanya mengubah tingkat keparahan
-  // (severity) di dalam chapter yang sama -- persis catatan "(Judul tidak berpengaruh)"
-  // di beberapa cabang wireframe untuk jalur verifikasi.
   const evaluateChoicesAndDetermineChapter = (head: 'A' | 'B', src: 'A' | 'B', act: 'A' | 'B') => {
     let finalChapter = '';
     let newFollowers = 12;
     let newTrust = 100;
-    const severe = head === 'A'; // A = Ragebait/Clickbait (varian lebih parah), B = Objektif (varian lebih ringan)
+    const severe = head === 'A'; // A = Ragebait/Clickbait (varian lebih parah)
 
     if (src === 'A' && act === 'A') {
-      // Sumber Anonim + Langsung Forward -> "The Chaos Catalyst"
       finalChapter = 'chaos_catalyst';
-      newFollowers = severe ? 300 : 180; // +300% vs +180%
-      newTrust = severe ? 10 : 40;       // Trust anjlok -90 vs -60 (dari basis 100)
+      newFollowers = severe ? 300 : 180;
+      newTrust = severe ? 10 : 40;
       setCurrentMiloExpression('shocked');
     } else if (src === 'B' && act === 'A') {
-      // Sumber Resmi + Langsung Forward -> "The Sensationalized Truth"
       finalChapter = 'sensational_truth';
-      newFollowers = severe ? 150 : 100; // +150% vs +100%
-      newTrust = severe ? 70 : 95;       // Trust berkurang -30 vs -5
+      newFollowers = severe ? 150 : 100;
+      newTrust = severe ? 70 : 95;
       setCurrentMiloExpression('thinking');
     } else if (src === 'A' && act === 'B') {
-      // Sumber Anonim + Verifikasi Dulu -> "The Filtered Defense" (judul tidak berpengaruh)
       finalChapter = 'filtered_defense';
-      newFollowers = 12;  // Tidak rilis / publikasi dibatalkan
-      newTrust = 100;     // Trust meroket +100
+      newFollowers = 12;
+      newTrust = 100;
       setCurrentMiloExpression('wink');
     } else {
-      // Sumber Resmi + Verifikasi Dulu -> "The Pristine Anchor" (judul tidak berpengaruh)
       finalChapter = 'pristine_anchor';
-      newFollowers = 18;  // Growth lambat organik (+50% dari basis 12)
-      newTrust = 100;     // Trust stabil tinggi
+      newFollowers = 18;
+      newTrust = 100;
       setCurrentMiloExpression('happy');
     }
 
@@ -180,14 +177,21 @@ export default function App() {
     setTimeout(() => setScreen('choose_action'), 300);
   };
 
+  // Tanda aksi hanya menyimpan pilihan ke state, lalu dikirim ke PostPreviewPage
   const selectAction = (id: 'A' | 'B') => {
-    playSynthSound('click'); setActionChoice(id);
-    if (headlineChoice && sourceChoice) {
-      setTimeout(() => evaluateChoicesAndDetermineChapter(headlineChoice, sourceChoice, id), 300);
+    setActionChoice(id);
+  };
+
+  // Pindah dari PostPreviewPage ke FeedOutcomePage
+  const goToFeedOutcome = () => {
+    if (headlineChoice && sourceChoice && actionChoice) {
+      evaluateChoicesAndDetermineChapter(headlineChoice, sourceChoice, actionChoice);
+    } else {
+      setScreen('feed_outcome');
     }
   };
 
-  // Pemicu aksi konsekuensi sekunder (Lanjut/Perbaiki/Berhenti)
+  // Pemicu aksi konsekuensi sekunder
   const selectConsequenceChoice = (choice: 'continue' | 'repent' | 'stop') => {
     playSynthSound('click');
     setSecondChoice(choice);
@@ -283,6 +287,18 @@ export default function App() {
           {screen === 'choose_action' && (
             <ChooseActionPage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} selectAction={selectAction} />
           )}
+          {screen === 'post_preview' && (
+            <PostPreviewPage
+              lang={lang}
+              playSynthSound={playSynthSound}
+              setScreen={setScreen}
+              currentMiloExpression={currentMiloExpression}
+              currentUsername={currentUsername}
+              headlineChoice={headlineChoice}
+              actionChoice={actionChoice}
+              goToFeedOutcome={goToFeedOutcome}
+            />
+          )}
           {screen === 'feed_outcome' && (
             <FeedOutcomePage
               lang={lang}
@@ -321,7 +337,15 @@ export default function App() {
             />
           )}
           {screen === 'chapters' && (
-            <ChaptersPage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} savedReflections={savedReflections} setActiveDiaryReflection={setActiveDiaryReflection} handleResetProgress={handleResetProgress} />
+            <ChaptersPage 
+              lang={lang} 
+              playSynthSound={playSynthSound} 
+              setScreen={setScreen} 
+              savedReflections={savedReflections} 
+              setActiveDiaryReflection={setActiveDiaryReflection} 
+              handleResetProgress={handleResetProgress}
+              badgeImage={badgeImage}
+            />
           )}
         </AnimatePresence>
       </main>

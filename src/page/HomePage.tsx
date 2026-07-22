@@ -32,7 +32,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   playSynthSound,
   setScreen
 }) => {
-  // Ambil teks sesuai bahasa aktif dari objek lokal di atas
+  // Ambil teks sesuai bahasa aktif dari objek lokal
   const t = LOCAL_TEXTS[lang];
 
   return (
@@ -44,9 +44,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full"
     >
       <div className="lg:col-span-7 space-y-6 md:space-y-8">
-        {/* Otter Badge with text */}
+        {/* Otter Badge dengan Aset Gambar Teman */}
         <div className="inline-flex items-center gap-2 bg-[#B4C285]/20 border-2 border-[#B4C285] px-3.5 py-1.5 rounded-full">
-          {/* Ditambahkan rounded-full, w-6, h-6, dan bg-white agar kontras ikon 2.png menjadi bulat rapi */}
           <img 
             src={badgeImage} 
             alt="Milo badge" 

@@ -23,6 +23,7 @@ interface ChaptersPageProps {
   savedReflections: SavedReflection[];
   setActiveDiaryReflection: (ref: SavedReflection) => void;
   handleResetProgress: () => void;
+  badgeImage?: string;
 }
 
 export const ChaptersPage: React.FC<ChaptersPageProps> = ({
@@ -31,7 +32,8 @@ export const ChaptersPage: React.FC<ChaptersPageProps> = ({
   setScreen,
   savedReflections,
   setActiveDiaryReflection,
-  handleResetProgress
+  handleResetProgress,
+  badgeImage // <-- 1. Ambil prop badgeImage di sini
 }) => {
   // Ambil naskah lokalisasi tombol reset progress
   const t = LOCAL_TEXTS[lang];
@@ -48,6 +50,7 @@ export const ChaptersPage: React.FC<ChaptersPageProps> = ({
       <ChapterSelection
         lang={lang}
         savedReflections={savedReflections}
+        badgeImage={badgeImage} // <-- 2. Teruskan prop ke ChapterSelection
         onBackToHome={() => {
           playSynthSound('click');
           setScreen('home');

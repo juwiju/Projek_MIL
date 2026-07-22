@@ -10,7 +10,7 @@ import { PhoneMockup } from '../components/PhoneMockup';
 // ==========================================
 const LOCAL_TEXTS = {
   id: {
-    postIntroText: "SEBAGAI CONTENT CREATOR BARU, KAMU BARU SAJA MENDAPATKAN INFORMASI MENARIK NIH! YUK, SEKARANG WAKTUNYA KAMU MEMBUAT POSTINGAN PERTAMAMU!",
+    postIntroText: " SEBAGAI CONTENT CREATOR BARU, KAMU BARU SAJA MENDAPATKAN INFORMASI MENARIK NIH! YUK, SEKARANG WAKTUNYA KAMU MEMBUAT POSTINGAN PERTAMAMU!",
     btnPrev: "Kembali",
     btnGas: "Gas Posting!"
   },
@@ -49,12 +49,28 @@ export const PostIntroPage: React.FC<PostIntroPageProps> = ({
     >
       {/* Kolom Kiri: Briefing dari Milo */}
       <div className="lg:col-span-7 space-y-6">
-        <MiloOtter expression={currentMiloExpression} size={180} className="mx-auto lg:mx-0" />
         
-        <DialogBubble text={t.postIntroText} variant="orange" />
+        {/* CONTAINER POP-OUT MILO DI POJOK KIRI BAWAH KOTAK ORANYE */}
+        <div className="relative pb-6">
+          {/* Kotak Bubble Oranye */}
+          <DialogBubble 
+            text={t.postIntroText}
+            variant="orange" 
+            className="!pl-14 md:!pl-16" 
+          />
+
+          {/* Gambar Milo menumpuk di pojok kiri bawah menggunakan komponen MiloOtter bawaan */}
+          <div className="absolute -bottom-10 -left-6 z-20 pointer-events-none">
+            <MiloOtter 
+              expression={currentMiloExpression} 
+              size={150} 
+              className="drop-shadow-md -rotate-6" 
+            />
+          </div>
+        </div>
 
         {/* Tombol Navigasi */}
-        <div className="flex gap-4">
+        <div className="flex gap-4 pt-2">
           <button
             onClick={() => { playSynthSound('click'); setScreen('name_selection'); }}
             className="px-6 py-3 bg-white text-[#1E1915] font-sans font-bold text-sm rounded-2xl border-2 border-[#1E1915] shadow-[3px_3px_0px_0px_#1E1915] hover:bg-[#FAF6F0] transition cursor-pointer"
