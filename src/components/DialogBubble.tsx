@@ -9,27 +9,37 @@ interface DialogBubbleProps {
 }
 
 export const DialogBubble: React.FC<DialogBubbleProps> = ({
-  text,
+  text = '',
   variant = 'green',
   className = '',
   onComplete
 }) => {
   const [displayedText, setDisplayedText] = useState('');
-  
+
   useEffect(() => {
+    // Safety check jika text kosong
+    if (!text) {
+      setDisplayedText('');
+      return;
+    }
+
+    // Reset teks langsung ke string kosong saat teks baru masuk
     setDisplayedText('');
     let index = 0;
+
     const interval = setInterval(() => {
-      setDisplayedText((prev) => prev + text.charAt(index));
       index++;
+      // ✅ Solusi: Menggunakan .slice(0, index) agar selalu mengambil dari huruf pertama (indeks 0)
+      setDisplayedText(text.slice(0, index));
+
       if (index >= text.length) {
         clearInterval(interval);
         if (onComplete) onComplete();
       }
-    }, 15); // Snappy 15ms per char for fast, responsive reading
-    
+    }, 15); // Snappy 15ms per char
+
     return () => clearInterval(interval);
-  }, [text]);
+  }, [text, onComplete]);
 
   const bgClasses = {
     green: 'bg-[#B4C285] text-[#242D13] border-[#1E1915]',
@@ -49,29 +59,32 @@ export const DialogBubble: React.FC<DialogBubbleProps> = ({
       animate={{ scale: 1, opacity: 1 }}
       className={`relative p-5 md:p-6 rounded-2xl border-3 font-sans font-bold text-lg md:text-xl tracking-normal leading-relaxed ${bgClasses[variant]} ${shadowClasses[variant]} ${className}`}
     >
-      {/* Grid Pattern overlay for green/orange bubbles like in screenshots */}
+      {/* Grid Pattern overlay for green/orange bubbles */}
       {variant === 'green' && (
-        <div className="absolute inset-0 opacity-[0.08] pointer-events-none rounded-2xl" 
-             style={{
-               backgroundImage: `radial-gradient(#000 1px, transparent 1px), radial-gradient(#000 1px, transparent 1px)`,
-               backgroundSize: '16px 16px',
-               backgroundPosition: '0 0, 8px 8px'
-             }} 
+        <div 
+          className="absolute inset-0 opacity-[0.08] pointer-events-none rounded-2xl" 
+          style={{
+            backgroundImage: `radial-gradient(#000 1px, transparent 1px), radial-gradient(#000 1px, transparent 1px)`,
+            backgroundSize: '16px 16px',
+            backgroundPosition: '0 0, 8px 8px'
+          }} 
         />
       )}
       
       {variant === 'orange' && (
-        <div className="absolute inset-0 opacity-[0.08] pointer-events-none rounded-2xl" 
-             style={{
-               backgroundImage: `linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)`,
-               backgroundSize: '20px 20px',
-               backgroundPosition: '0 0, 10px 10px'
-             }} 
+        <div 
+          className="absolute inset-0 opacity-[0.08] pointer-events-none rounded-2xl" 
+          style={{
+            backgroundImage: `linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)`,
+            backgroundSize: '20px 20px',
+            backgroundPosition: '0 0, 10px 10px'
+          }} 
         />
       )}
 
       {/* Bubble tail */}
-      <div className={`absolute -left-3 top-10 w-0 h-0 border-t-[12px] border-t-transparent border-r-[16px] border-b-[12px] border-b-transparent pointer-events-none
+      <div 
+        className={`absolute -left-3 top-10 w-0 h-0 border-t-[12px] border-t-transparent border-r-[16px] border-b-[12px] border-b-transparent pointer-events-none
         ${variant === 'green' ? 'border-r-[#B4C285]' : variant === 'orange' ? 'border-r-[#E36633]' : 'border-r-[#2E2823]'}`}
       />
       
