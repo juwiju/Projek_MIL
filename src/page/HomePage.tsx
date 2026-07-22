@@ -2,22 +2,38 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Award } from 'lucide-react';
 import { Language, GameScreen } from '../types';
-import { TranslationSet } from '../data/gameContent';
 import { PhoneMockup } from '../components/PhoneMockup';
+
+// ==========================================
+// NASKAH TEKS LOKAL (GABUNGAN DI DALAM FILE)
+// ==========================================
+const LOCAL_TEXTS = {
+  id: {
+    subTagline: "Masuki simulasi menjadi kreator konten. Setiap pilihanmu menentukan apakah kamu akan menjadi pelindung kebenaran atau agen kekacauan digital.",
+    btnPlay: "Main Sekarang",
+    btnChapters: "Koleksi Chapter"
+  },
+  en: {
+    subTagline: "Enter the content creator simulation. Every choice you make determines whether you become a defender of truth or an agent of digital chaos.",
+    btnPlay: "Play Now",
+    btnChapters: "Chapter Collection"
+  }
+};
 
 interface HomePageProps {
   lang: Language;
-  t: TranslationSet;
   playSynthSound: (type: 'click' | 'success' | 'fail' | 'slide') => void;
   setScreen: (screen: GameScreen) => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
   lang,
-  t,
   playSynthSound,
   setScreen
 }) => {
+  // Ambil teks sesuai bahasa aktif dari objek lokal di atas
+  const t = LOCAL_TEXTS[lang];
+
   return (
     <motion.div
       key="home"
@@ -35,14 +51,17 @@ export const HomePage: React.FC<HomePageProps> = ({
           </span>
         </div>
 
+        {/* Judul Game */}
         <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl text-[#1E1915] leading-tight select-text">
           Postingan pertama kamu, <span className="text-[#E36633] underline decoration-[#1E1915] decoration-4 md:decoration-6 underline-offset-4 md:underline-offset-8">taruhannya</span> kepercayaan orang.
         </h1>
 
+        {/* Sub-Tagline Deskripsi */}
         <p className="font-sans font-semibold text-base md:text-lg text-[#5C4D3F] leading-relaxed max-w-xl select-text">
           {t.subTagline}
         </p>
 
+        {/* Tombol Navigasi Menu Utama */}
         <div className="flex flex-col sm:flex-row gap-4 pt-2">
           <button
             onClick={() => { playSynthSound('success'); setScreen('milo_intro'); }}

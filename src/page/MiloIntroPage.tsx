@@ -1,13 +1,27 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Language, MiloExpression, GameScreen } from '../types';
-import { TranslationSet } from '../data/gameContent';
 import { MiloOtter } from '../components/MiloOtter';
 import { DialogBubble } from '../components/DialogBubble';
 
+// ==========================================
+// NASKAH TEKS LOKAL (GABUNGAN DI DALAM FILE)
+// ==========================================
+const LOCAL_TEXTS = {
+  id: {
+    miloIntroText: "HALO! AKU MILO. AKU AKAN MENEMANI PETUALANGANMU MENJADI CONTENT CREATOR DI GAME INI! SIAP UNTUK MEMULAI?",
+    btnPrev: "Kembali",
+    btnNext: "Lanjut"
+  },
+  en: {
+    miloIntroText: "HELLO! I'M MILO. I WILL ACCOMPANY YOUR ADVENTURE TO BECOME A CONTENT CREATOR IN THIS GAME! READY TO START?",
+    btnPrev: "Back",
+    btnNext: "Next"
+  }
+};
+
 interface MiloIntroPageProps {
   lang: Language;
-  t: TranslationSet;
   playSynthSound: (type: 'click' | 'success' | 'fail' | 'slide') => void;
   setScreen: (screen: GameScreen) => void;
   currentMiloExpression: MiloExpression;
@@ -15,11 +29,13 @@ interface MiloIntroPageProps {
 
 export const MiloIntroPage: React.FC<MiloIntroPageProps> = ({
   lang,
-  t,
   playSynthSound,
   setScreen,
   currentMiloExpression
 }) => {
+  // Ambil teks lokalisasi sesuai bahasa yang sedang aktif
+  const t = LOCAL_TEXTS[lang];
+
   return (
     <motion.div
       key="milo_intro"
@@ -28,8 +44,10 @@ export const MiloIntroPage: React.FC<MiloIntroPageProps> = ({
       exit={{ opacity: 0 }}
       className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 w-full max-w-4xl"
     >
+      {/* Visual Karakter Milo */}
       <MiloOtter expression={currentMiloExpression} size={250} />
       
+      {/* Balon Percakapan dan Tombol Aksi */}
       <div className="space-y-6 flex-1">
         <DialogBubble 
           text={t.miloIntroText} 

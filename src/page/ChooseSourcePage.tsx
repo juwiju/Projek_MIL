@@ -1,11 +1,40 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Language, GameScreen } from '../types';
-import { TranslationSet, sourceOptions } from '../data/gameContent';
+
+// ==========================================
+// DATA & NASKAH LOKAL (GABUNGAN DI DALAM FILE)
+// ==========================================
+const LOCAL_TEXTS = {
+  id: {
+    selectSourceHeader: "Cantumkan Sumber: Dari mana kamu mendapatkan informasi ini?",
+    btnPrev: "Kembali ke Judul"
+  },
+  en: {
+    selectSourceHeader: "Cite Source: Where did you get this information from?",
+    btnPrev: "Back to Headline"
+  }
+};
+
+const LOCAL_SOURCE_OPTIONS = [
+  {
+    id: 'A' as const,
+    text: {
+      id: "Dapat dari rekaman layar video yang viral di FYP TikTok. Katanya sih infonya valid karena yang komen ramai banget!",
+      en: "Got it from a screen recording video that went viral on TikTok FYP. They said it's valid because the comment section is crowded!"
+    }
+  },
+  {
+    id: 'B' as const,
+    text: {
+      id: "Melihat langsung dari halaman pengumuman karir di website resmi Toko Online yang bersangkutan.",
+      en: "Saw it directly from the official career announcement page on the respective Online Store website."
+    }
+  }
+];
 
 interface ChooseSourcePageProps {
   lang: Language;
-  t: TranslationSet;
   playSynthSound: (type: 'click' | 'success' | 'fail' | 'slide') => void;
   setScreen: (screen: GameScreen) => void;
   selectSource: (id: 'A' | 'B') => void;
@@ -13,11 +42,13 @@ interface ChooseSourcePageProps {
 
 export const ChooseSourcePage: React.FC<ChooseSourcePageProps> = ({
   lang,
-  t,
   playSynthSound,
   setScreen,
   selectSource
 }) => {
+  // Ambil teks lokalisasi dari objek lokal di atas
+  const t = LOCAL_TEXTS[lang];
+
   return (
     <motion.div
       key="choose_source"
@@ -26,6 +57,7 @@ export const ChooseSourcePage: React.FC<ChooseSourcePageProps> = ({
       exit={{ opacity: 0 }}
       className="w-full max-w-4xl space-y-8"
     >
+      {/* Indikator Langkah & Judul Halaman */}
       <div className="text-center space-y-3">
         <span className="font-mono text-xs font-extrabold bg-[#E36633]/20 text-[#E36633] border border-[#E36633] px-3.5 py-1 rounded-full uppercase tracking-widest">
           {lang === 'id' ? "LANGKAH 2 DARI 3" : "STEP 2 OF 3"}
@@ -35,8 +67,9 @@ export const ChooseSourcePage: React.FC<ChooseSourcePageProps> = ({
         </h2>
       </div>
 
+      {/* Grid Pilihan Kartu Sumber */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {sourceOptions.map((opt) => (
+        {LOCAL_SOURCE_OPTIONS.map((opt) => (
           <motion.div
             key={opt.id}
             whileHover={{ scale: 1.015, y: -2 }}
@@ -59,6 +92,7 @@ export const ChooseSourcePage: React.FC<ChooseSourcePageProps> = ({
         ))}
       </div>
 
+      {/* Tombol Mundur ke Halaman Judul */}
       <div className="flex justify-center pt-4">
         <button
           onClick={() => { playSynthSound('click'); setScreen('choose_headline'); }}

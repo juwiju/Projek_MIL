@@ -1,11 +1,40 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Language, GameScreen } from '../types';
-import { TranslationSet, actionOptions } from '../data/gameContent';
+
+// ==========================================
+// DATA & NASKAH LOKAL (GABUNGAN DI DALAM FILE)
+// ==========================================
+const LOCAL_TEXTS = {
+  id: {
+    selectActionHeader: "Tindakan Akhir: Apa yang akan kamu lakukan dengan draf postingan ini?",
+    btnPrev: "Kembali ke Sumber"
+  },
+  en: {
+    selectActionHeader: "Final Action: What will you do with this draft post?",
+    btnPrev: "Back to Source"
+  }
+};
+
+const LOCAL_ACTION_OPTIONS = [
+  {
+    id: 'A' as const,
+    text: {
+      id: "Langsung posting sekarang juga! Gak perlu mikir lama, mumpung topiknya lagi hangat dan belum basi.",
+      en: "Post it right now! No need to overthink, while the topic is still hot and trending."
+    }
+  },
+  {
+    id: 'B' as const,
+    text: {
+      id: "Tahan dulu. Coba cek ulang kebenaran beritanya dengan mencari konfirmasi di portal berita terpercaya atau humas resmi.",
+      en: "Hold on. Try to double-check the truth of the news by searching for confirmation on trusted news portals or official PR."
+    }
+  }
+];
 
 interface ChooseActionPageProps {
   lang: Language;
-  t: TranslationSet;
   playSynthSound: (type: 'click' | 'success' | 'fail' | 'slide') => void;
   setScreen: (screen: GameScreen) => void;
   selectAction: (id: 'A' | 'B') => void;
@@ -13,11 +42,13 @@ interface ChooseActionPageProps {
 
 export const ChooseActionPage: React.FC<ChooseActionPageProps> = ({
   lang,
-  t,
   playSynthSound,
   setScreen,
   selectAction
 }) => {
+  // Ambil teks lokalisasi sesuai bahasa aktif
+  const t = LOCAL_TEXTS[lang];
+
   return (
     <motion.div
       key="choose_action"
@@ -26,6 +57,7 @@ export const ChooseActionPage: React.FC<ChooseActionPageProps> = ({
       exit={{ opacity: 0 }}
       className="w-full max-w-4xl space-y-8"
     >
+      {/* Langkah Indikator & Header */}
       <div className="text-center space-y-3">
         <span className="font-mono text-xs font-extrabold bg-[#E36633]/20 text-[#E36633] border border-[#E36633] px-3.5 py-1 rounded-full uppercase tracking-widest">
           {lang === 'id' ? "LANGKAH 3 DARI 3" : "STEP 3 OF 3"}
@@ -35,8 +67,9 @@ export const ChooseActionPage: React.FC<ChooseActionPageProps> = ({
         </h2>
       </div>
 
+      {/* Grid Opsi Kartu Tindakan */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {actionOptions.map((opt) => (
+        {LOCAL_ACTION_OPTIONS.map((opt) => (
           <motion.div
             key={opt.id}
             whileHover={{ scale: 1.015, y: -2 }}
@@ -59,6 +92,7 @@ export const ChooseActionPage: React.FC<ChooseActionPageProps> = ({
         ))}
       </div>
 
+      {/* Tombol Mundur ke Langkah Sebelumnya */}
       <div className="flex justify-center pt-4">
         <button
           onClick={() => { playSynthSound('click'); setScreen('choose_source'); }}

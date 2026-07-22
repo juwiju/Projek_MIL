@@ -1,14 +1,28 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Language, MiloExpression, GameScreen } from '../types';
-import { TranslationSet } from '../data/gameContent';
 import { MiloOtter } from '../components/MiloOtter';
 import { DialogBubble } from '../components/DialogBubble';
 import { PhoneMockup } from '../components/PhoneMockup';
 
+// ==========================================
+// NASKAH TEKS LOKAL (GABUNGAN DI DALAM FILE)
+// ==========================================
+const LOCAL_TEXTS = {
+  id: {
+    nameSelectionText: "SEBELUM MEMULAI PETUALANGANMU, YUK PILIH USERNAME YANG MAU KAMU GUNAKAN DI MEDIA SOSIAL KAMU!",
+    btnPrev: "Kembali",
+    btnConfirmName: "Konfirmasi Nama"
+  },
+  en: {
+    nameSelectionText: "BEFORE STARTING YOUR ADVENTURE, LET'S CHOOSE THE USERNAME YOU WANT TO USE ON YOUR SOCIAL MEDIA!",
+    btnPrev: "Back",
+    btnConfirmName: "Confirm Name"
+  }
+};
+
 interface NameSelectionPageProps {
   lang: Language;
-  t: TranslationSet;
   playSynthSound: (type: 'click' | 'success' | 'fail' | 'slide') => void;
   setScreen: (screen: GameScreen) => void;
   currentMiloExpression: MiloExpression;
@@ -18,13 +32,15 @@ interface NameSelectionPageProps {
 
 export const NameSelectionPage: React.FC<NameSelectionPageProps> = ({
   lang,
-  t,
   playSynthSound,
   setScreen,
   currentMiloExpression,
   currentUsername,
   handleUsernameToggle
 }) => {
+  // Ambil teks sesuai bahasa aktif dari objek lokal di atas
+  const t = LOCAL_TEXTS[lang];
+
   return (
     <motion.div
       key="name_selection"
@@ -33,10 +49,12 @@ export const NameSelectionPage: React.FC<NameSelectionPageProps> = ({
       exit={{ opacity: 0 }}
       className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full max-w-5xl"
     >
+      {/* Kolom Kiri: Instruksi Milo */}
       <div className="lg:col-span-7 space-y-6">
         <MiloOtter expression={currentMiloExpression} size={160} className="mx-auto lg:mx-0" />
         <DialogBubble text={t.nameSelectionText} variant="green" />
         
+        {/* Tombol Aksi Navigasi */}
         <div className="flex gap-4">
           <button
             onClick={() => { playSynthSound('click'); setScreen('milo_intro'); }}
@@ -55,8 +73,8 @@ export const NameSelectionPage: React.FC<NameSelectionPageProps> = ({
         </div>
       </div>
 
+      {/* Kolom Kanan: Tampilan HP Pilihan Username */}
       <div className="lg:col-span-5 flex justify-center">
-        {/* Smartphone with username selection callback */}
         <PhoneMockup
           lang={lang}
           username={currentUsername}
