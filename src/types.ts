@@ -31,10 +31,11 @@ export type GameScreen =
   | 'choose_headline'
   | 'choose_source'
   | 'choose_action'
+  | 'post_preview'
+  | 'day_night_transition'
   | 'feed_outcome'
   | 'second_choice'
   | 'final_reflection'
-  | 'post_preview'
   | 'diary_gallery';
 
 export interface SavedReflection {

@@ -28,6 +28,7 @@ import { FeedOutcomePage } from './page/FeedOutcomePage';
 import { SecondChoicePage } from './page/SecondChoicePage';
 import { FinalReflectionPage } from './page/FinalReflectionPage';
 import { ChaptersPage } from './page/ChaptersPage';
+import { DayNightTransitionPage } from './page/DayNightTransitionPage';
 import { PostPreviewPage } from './page/PostPreviewPage';
 
 const USERNAME_OPTIONS = ['LambuKetupat', 'RealNews', 'SobatRebahan', 'InfoGercep', 'FaktaLokal'];
@@ -182,7 +183,12 @@ export default function App() {
     setActionChoice(id);
   };
 
-  // Pindah dari PostPreviewPage ke FeedOutcomePage
+  // Pindah dari PostPreviewPage ke halaman transisi malam-ke-siang terlebih dahulu
+  const handleSeeReactionsClick = () => {
+    playSynthSound('slide');
+    setScreen('day_night_transition');
+  };
+
   const goToFeedOutcome = () => {
     if (headlineChoice && sourceChoice && actionChoice) {
       evaluateChoicesAndDetermineChapter(headlineChoice, sourceChoice, actionChoice);
@@ -287,7 +293,7 @@ export default function App() {
           {screen === 'choose_action' && (
             <ChooseActionPage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} selectAction={selectAction} />
           )}
-          {screen === 'post_preview' && (
+              {screen === 'post_preview' && (
             <PostPreviewPage
               lang={lang}
               playSynthSound={playSynthSound}
@@ -297,6 +303,20 @@ export default function App() {
               headlineChoice={headlineChoice}
               actionChoice={actionChoice}
               goToFeedOutcome={goToFeedOutcome}
+              onSeeReactionsClick={handleSeeReactionsClick}
+            />
+          )}
+          {screen === 'day_night_transition' && (
+            <DayNightTransitionPage
+              lang={lang}
+              playSynthSound={playSynthSound}
+              onTransitionEnd={() => {
+                if (headlineChoice && sourceChoice && actionChoice) {
+                  evaluateChoicesAndDetermineChapter(headlineChoice, sourceChoice, actionChoice);
+                } else {
+                  setScreen('feed_outcome');
+                }
+              }}
             />
           )}
           {screen === 'feed_outcome' && (
