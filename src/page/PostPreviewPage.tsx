@@ -37,6 +37,7 @@ interface PostPreviewPageProps {
   sourceChoice?: 'A' | 'B' | null;
   actionChoice: 'A' | 'B' | null;
   goToFeedOutcome?: () => void;
+  onSeeReactionsClick?: () => void;
 }
 
 export const PostPreviewPage: React.FC<PostPreviewPageProps> = ({
@@ -47,7 +48,8 @@ export const PostPreviewPage: React.FC<PostPreviewPageProps> = ({
   headlineChoice,
   sourceChoice,
   actionChoice,
-  goToFeedOutcome
+  goToFeedOutcome,
+  onSeeReactionsClick
 }) => {
   const t = LOCAL_TEXTS[lang];
 
@@ -61,7 +63,9 @@ export const PostPreviewPage: React.FC<PostPreviewPageProps> = ({
 
   const handleNext = () => {
     playSynthSound('slide');
-    if (goToFeedOutcome) {
+    if (onSeeReactionsClick) {
+      onSeeReactionsClick();
+    } else if (goToFeedOutcome) {
       goToFeedOutcome();
     } else {
       setScreen('feed_outcome');
