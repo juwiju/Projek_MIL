@@ -1,11 +1,40 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Language, GameScreen } from '../types';
-import { TranslationSet, headlineOptions } from '../data/gameContent';
+
+// ==========================================
+// DATA & NASKAH LOKAL (GABUNGAN DI DALAM FILE)
+// ==========================================
+const LOCAL_TEXTS = {
+  id: {
+    selectHeadlineHeader: "Pilih Judul: Bagaimana kamu akan mengemas berita ini?",
+    btnPrev: "Kembali ke Pengantar"
+  },
+  en: {
+    selectHeadlineHeader: "Choose Headline: How will you package this news?",
+    btnPrev: "Back to Intro"
+  }
+};
+
+const LOCAL_HEADLINE_OPTIONS = [
+  {
+    id: 'A' as const,
+    text: {
+      id: "KERJA ONLINE: Sambil Rebahan! Cuma Like Video YouTube Dibayar 50 Ribu/Tugas. Butuh 100 Orang Gercep!",
+      en: "ONLINE WORK: While Relaxing! Just Like YouTube Videos Get Paid 50k/Task. Need 100 People Fast!"
+    }
+  },
+  {
+    id: 'B' as const,
+    text: {
+      id: "WASPADA! Penipuan Berkedok Loker Like-and-Share YouTube Mulai Memakan Korban. Ini Faktanya!",
+      en: "BEWARE! YouTube Like-and-Share Job Scams Start Claiming Victims. Here Are the Facts!"
+    }
+  }
+];
 
 interface ChooseHeadlinePageProps {
   lang: Language;
-  t: TranslationSet;
   playSynthSound: (type: 'click' | 'success' | 'fail' | 'slide') => void;
   setScreen: (screen: GameScreen) => void;
   selectHeadline: (id: 'A' | 'B') => void;
@@ -13,11 +42,13 @@ interface ChooseHeadlinePageProps {
 
 export const ChooseHeadlinePage: React.FC<ChooseHeadlinePageProps> = ({
   lang,
-  t,
   playSynthSound,
   setScreen,
   selectHeadline
 }) => {
+  // Ambil teks lokalisasi sesuai bahasa aktif
+  const t = LOCAL_TEXTS[lang];
+
   return (
     <motion.div
       key="choose_headline"
@@ -26,6 +57,7 @@ export const ChooseHeadlinePage: React.FC<ChooseHeadlinePageProps> = ({
       exit={{ opacity: 0 }}
       className="w-full max-w-4xl space-y-8"
     >
+      {/* Indikator Langkah & Header Halaman */}
       <div className="text-center space-y-3">
         <span className="font-mono text-xs font-extrabold bg-[#E36633]/20 text-[#E36633] border border-[#E36633] px-3.5 py-1 rounded-full uppercase tracking-widest">
           {lang === 'id' ? "LANGKAH 1 DARI 3" : "STEP 1 OF 3"}
@@ -35,8 +67,9 @@ export const ChooseHeadlinePage: React.FC<ChooseHeadlinePageProps> = ({
         </h2>
       </div>
 
+      {/* Grid Opsi Kartu Judul Konten */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {headlineOptions.map((opt) => (
+        {LOCAL_HEADLINE_OPTIONS.map((opt) => (
           <motion.div
             key={opt.id}
             whileHover={{ scale: 1.015, y: -2 }}
@@ -59,6 +92,7 @@ export const ChooseHeadlinePage: React.FC<ChooseHeadlinePageProps> = ({
         ))}
       </div>
 
+      {/* Tombol Mundur ke Briefing Awal */}
       <div className="flex justify-center pt-4">
         <button
           onClick={() => { playSynthSound('click'); setScreen('post_intro'); }}

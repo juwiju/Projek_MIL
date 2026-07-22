@@ -1,33 +1,44 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Language, MiloExpression, GameScreen } from '../types';
-import { TranslationSet } from '../data/gameContent';
-// import { MiloOtter } from '../components/MiloOtter'; // Komponen dinamis dinonaktifkan
 import { DialogBubble } from '../components/DialogBubble';
 import { PhoneMockup } from '../components/PhoneMockup';
+import MiloEkspresiTiga from '../asset/gambar/Filtered Defense.png';
 
-// 1. Mengubah nama variabel import agar Vite mendeteksi adanya perubahan modul yang jelas
-import MiloEkspresiTiga dari '../asset/gambar/3.png';
+// ==========================================
+// NASKAH TEKS LOKAL (GABUNGAN DI DALAM FILE)
+// ==========================================
+const LOCAL_TEXTS = {
+  id: {
+    nameSelectionText: "SEBELUM MEMULAI PETUALANGANMU, YUK PILIH USERNAME YANG MAU KAMU GUNAKAN DI MEDIA SOSIAL KAMU!",
+    btnPrev: "Kembali",
+    btnConfirmName: "Konfirmasi Nama"
+  },
+  en: {
+    nameSelectionText: "BEFORE STARTING YOUR ADVENTURE, LET'S CHOOSE THE USERNAME YOU WANT TO USE ON YOUR SOCIAL MEDIA!",
+    btnPrev: "Back",
+    btnConfirmName: "Confirm Name"
+  }
+};
 
 interface NameSelectionPageProps {
   lang: Language;
-  t: TranslationSet;
   playSynthSound: (type: 'click' | 'success' | 'fail' | 'slide') => void;
   setScreen: (screen: GameScreen) => void;
-  currentMiloExpression: MiloExpression;
+  currentMiloExpression?: MiloExpression;
   currentUsername: string;
   handleUsernameToggle: (dir: 'left' | 'right') => void;
 }
 
 export const NameSelectionPage: React.FC<NameSelectionPageProps> = ({
   lang,
-  t,
   playSynthSound,
   setScreen,
-  currentMiloExpression, // Tetap di-destructure agar tidak error, tapi diabaikan
   currentUsername,
   handleUsernameToggle
 }) => {
+  const t = LOCAL_TEXTS[lang];
+
   return (
     <motion.div
       key="name_selection"
@@ -36,17 +47,32 @@ export const NameSelectionPage: React.FC<NameSelectionPageProps> = ({
       exit={{ opacity: 0 }}
       className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full max-w-5xl"
     >
+      {/* Kolom Kiri: Instruksi Milo */}
       <div className="lg:col-span-7 space-y-6">
-        {/* 2. Menambahkan query string `?v=3` di ujung URL gambar untuk memaksa browser membuang cache lama */}
-        <img 
-          src={`${MiloEkspresiTiga}?v=3`} 
-          alt="Milo Otter" 
-          className="mx-auto lg:mx-0 w-[160px] h-auto object-contain" 
-        />
         
-        <DialogBubble text={t.nameSelectionText} variant="green" />
+        {/* ============================================================ */}
+        {/* CONTAINER POP-OUT MILO x DIALOG BUBBLE (TAMPILAN MIRIP CANVA) */}
+        {/* ============================================================ */}
+        <div className="relative pt-6">
+          {/* Gambar Milo menumpuk persis di pojok kiri atas kotak hijau */}
+          <img 
+            src={`${MiloEkspresiTiga}?v=3`} 
+            alt="Milo Otter" 
+            className="absolute -top-10 left-[-10px] w-[130px] md:w-[150px] h-auto object-contain z-20 -rotate-6 pointer-events-none drop-shadow-md" 
+          />
+          
+          {/* Kotak Bubble Hijau */}
+          <div className="relative z-10">
+            <DialogBubble 
+              text={t.nameSelectionText} 
+              variant="green" 
+              className="!pl-24 md:!pl-28 !pt-8" 
+            />
+          </div>
+        </div>
         
-        <div className="flex gap-4">
+        {/* Tombol Aksi Navigasi */}
+        <div className="flex gap-4 pt-2">
           <button
             onClick={() => { 
               playSynthSound('click'); 
@@ -71,8 +97,8 @@ export const NameSelectionPage: React.FC<NameSelectionPageProps> = ({
         </div>
       </div>
 
+      {/* Kolom Kanan: Tampilan HP Pilihan Username */}
       <div className="lg:col-span-5 flex justify-center">
-        {/* Smartphone with username selection callback */}
         <PhoneMockup
           lang={lang}
           username={currentUsername}

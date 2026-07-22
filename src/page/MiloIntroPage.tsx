@@ -1,26 +1,40 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Language, MiloExpression, GameScreen } from '../types';
-import { TranslationSet } from '../data/gameContent';
 import { DialogBubble } from '../components/DialogBubble';
-// Memastikan path mengarah dengan benar ke src/asset/gambar/1.png
 import MiloStatisImg from '../asset/gambar/1.png'; 
+
+// ==========================================
+// NASKAH TEKS LOKAL (GABUNGAN DI DALAM FILE)
+// ==========================================
+const LOCAL_TEXTS = {
+  id: {
+    miloIntroText: "HALO! AKU MILO. AKU AKAN MENEMANI PETUALANGANMU MENJADI CONTENT CREATOR DI GAME INI! SIAP UNTUK MEMULAI?",
+    btnPrev: "Kembali",
+    btnNext: "Lanjut"
+  },
+  en: {
+    miloIntroText: "HELLO! I'M MILO. I WILL ACCOMPANY YOUR ADVENTURE TO BECOME A CONTENT CREATOR IN THIS GAME! READY TO START?",
+    btnPrev: "Back",
+    btnNext: "Next"
+  }
+};
 
 interface MiloIntroPageProps {
   lang: Language;
-  t: TranslationSet;
   playSynthSound: (type: 'click' | 'success' | 'fail' | 'slide') => void;
   setScreen: (screen: GameScreen) => void;
-  currentMiloExpression: MiloExpression;
+  currentMiloExpression?: MiloExpression; // Dibuat opsional agar aman jika nanti tidak dioper
 }
 
 export const MiloIntroPage: React.FC<MiloIntroPageProps> = ({
   lang,
-  t,
   playSynthSound,
-  setScreen,
-  currentMiloExpression // Tetap di-destructure agar tidak error, tapi diabaikan sesuai kebutuhanmu
+  setScreen
 }) => {
+  // Ambil teks lokalisasi sesuai bahasa aktif dari objek lokal
+  const t = LOCAL_TEXTS[lang];
+
   return (
     <motion.div
       key="milo_intro"
@@ -29,13 +43,14 @@ export const MiloIntroPage: React.FC<MiloIntroPageProps> = ({
       exit={{ opacity: 0 }}
       className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 w-full max-w-4xl"
     >
-      {/* Menggunakan gambar 1.png secara statis */}
+      {/* Visual Karakter Milo (Gambar Statis dari Teman) */}
       <img 
         src={MiloStatisImg} 
         alt="Milo Otter Statis" 
         className="w-[250px] h-auto object-contain" 
       />
       
+      {/* Balon Percakapan dan Tombol Aksi */}
       <div className="space-y-6 flex-1">
         <DialogBubble 
           text={t.miloIntroText} 

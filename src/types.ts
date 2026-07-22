@@ -34,6 +34,7 @@ export type GameScreen =
   | 'feed_outcome'
   | 'second_choice'
   | 'final_reflection'
+  | 'post_preview'
   | 'diary_gallery';
 
 export interface SavedReflection {
