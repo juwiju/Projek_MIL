@@ -269,105 +269,107 @@ export default function App() {
         </div>
       </header>
 
-      {/* ROUTER CONTAINER UTAMA */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-6 flex items-center justify-center">
-        <AnimatePresence mode="wait">
-          {screen === 'home' && (
-            <HomePage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} />
-          )}
-          {screen === 'milo_intro' && (
-            <MiloIntroPage lang={lang} currentMiloExpression={currentMiloExpression} playSynthSound={playSynthSound} setScreen={setScreen} />
-          )}
-          {screen === 'name_selection' && (
-            <NameSelectionPage lang={lang} currentUsername={currentUsername} currentMiloExpression={currentMiloExpression} handleUsernameToggle={handleUsernameToggle} playSynthSound={playSynthSound} setScreen={setScreen} />
-          )}
-          {screen === 'post_intro' && (
-            <PostIntroPage lang={lang} currentUsername={currentUsername} currentMiloExpression={currentMiloExpression} playSynthSound={playSynthSound} setScreen={setScreen} />
-          )}
-          {screen === 'choose_headline' && (
-            <ChooseHeadlinePage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} selectHeadline={selectHeadline} />
-          )}
-          {screen === 'choose_source' && (
-            <ChooseSourcePage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} selectSource={selectSource} />
-          )}
-          {screen === 'choose_action' && (
-            <ChooseActionPage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} selectAction={selectAction} />
-          )}
-              {screen === 'post_preview' && (
-            <PostPreviewPage
-              lang={lang}
-              playSynthSound={playSynthSound}
-              setScreen={setScreen}
-              currentMiloExpression={currentMiloExpression}
-              currentUsername={currentUsername}
-              headlineChoice={headlineChoice}
-              actionChoice={actionChoice}
-              goToFeedOutcome={goToFeedOutcome}
-              onSeeReactionsClick={handleSeeReactionsClick}
-            />
-          )}
-          {screen === 'day_night_transition' && (
-            <DayNightTransitionPage
-              lang={lang}
-              playSynthSound={playSynthSound}
-              onTransitionEnd={() => {
-                if (headlineChoice && sourceChoice && actionChoice) {
-                  evaluateChoicesAndDetermineChapter(headlineChoice, sourceChoice, actionChoice);
-                } else {
-                  setScreen('feed_outcome');
-                }
-              }}
-            />
-          )}
-          {screen === 'feed_outcome' && (
-            <FeedOutcomePage
-              lang={lang}
-              playSynthSound={playSynthSound}
-              setScreen={setScreen}
-              currentMiloExpression={currentMiloExpression}
-              currentUsername={currentUsername}
-              stats={stats}
-              headlineChoice={headlineChoice}
-              sourceChoice={sourceChoice}
-              selectedChapterId={selectedChapterId}
-              selectConsequenceChoice={selectConsequenceChoice}
-            />
-          )}
-          {screen === 'second_choice' && (
-            <SecondChoicePage
-              lang={lang}
-              playSynthSound={playSynthSound}
-              setScreen={setScreen}
-              currentMiloExpression={currentMiloExpression}
-              currentUsername={currentUsername}
-              stats={stats}
-              headlineChoice={headlineChoice}
-              sourceChoice={sourceChoice}
-              secondChoice={secondChoice}
-              selectedChapterId={selectedChapterId}
-            />
-          )}
-          {screen === 'final_reflection' && (
-            <FinalReflectionPage
-              lang={lang}
-              setScreen={setScreen}
-              selectedChapterId={selectedChapterId}
-              stats={stats}
-              handleSaveReflection={handleSaveReflection}
-            />
-          )}
-          {screen === 'chapters' && (
-            <ChaptersPage 
-              lang={lang} 
-              playSynthSound={playSynthSound} 
-              setScreen={setScreen} 
-              savedReflections={savedReflections} 
-              setActiveDiaryReflection={setActiveDiaryReflection} 
-              handleResetProgress={handleResetProgress}
-              badgeImage={badgeImage}
-            />
-          )}
-        </AnimatePresence>
+      {/* ROUTER CONTAINER UTAMA DENGAN DUKUNGAN RESPONSIVE LANDSCAPE */}
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 flex items-center justify-center">
+        <div className="w-full max-w-5xl mx-auto flex justify-center items-center">
+          <AnimatePresence mode="wait">
+            {screen === 'home' && (
+              <HomePage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} />
+            )}
+            {screen === 'milo_intro' && (
+              <MiloIntroPage lang={lang} currentMiloExpression={currentMiloExpression} playSynthSound={playSynthSound} setScreen={setScreen} />
+            )}
+            {screen === 'name_selection' && (
+              <NameSelectionPage lang={lang} currentUsername={currentUsername} currentMiloExpression={currentMiloExpression} handleUsernameToggle={handleUsernameToggle} playSynthSound={playSynthSound} setScreen={setScreen} />
+            )}
+            {screen === 'post_intro' && (
+              <PostIntroPage lang={lang} currentUsername={currentUsername} currentMiloExpression={currentMiloExpression} playSynthSound={playSynthSound} setScreen={setScreen} />
+            )}
+            {screen === 'choose_headline' && (
+              <ChooseHeadlinePage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} selectHeadline={selectHeadline} />
+            )}
+            {screen === 'choose_source' && (
+              <ChooseSourcePage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} selectSource={selectSource} />
+            )}
+            {screen === 'choose_action' && (
+              <ChooseActionPage lang={lang} playSynthSound={playSynthSound} setScreen={setScreen} selectAction={selectAction} />
+            )}
+            {screen === 'post_preview' && (
+              <PostPreviewPage
+                lang={lang}
+                playSynthSound={playSynthSound}
+                setScreen={setScreen}
+                currentMiloExpression={currentMiloExpression}
+                currentUsername={currentUsername}
+                headlineChoice={headlineChoice}
+                actionChoice={actionChoice}
+                goToFeedOutcome={goToFeedOutcome}
+                onSeeReactionsClick={handleSeeReactionsClick}
+              />
+            )}
+            {screen === 'day_night_transition' && (
+              <DayNightTransitionPage
+                lang={lang}
+                playSynthSound={playSynthSound}
+                onTransitionEnd={() => {
+                  if (headlineChoice && sourceChoice && actionChoice) {
+                    evaluateChoicesAndDetermineChapter(headlineChoice, sourceChoice, actionChoice);
+                  } else {
+                    setScreen('feed_outcome');
+                  }
+                }}
+              />
+            )}
+            {screen === 'feed_outcome' && (
+              <FeedOutcomePage
+                lang={lang}
+                playSynthSound={playSynthSound}
+                setScreen={setScreen}
+                currentMiloExpression={currentMiloExpression}
+                currentUsername={currentUsername}
+                stats={stats}
+                headlineChoice={headlineChoice}
+                sourceChoice={sourceChoice}
+                selectedChapterId={selectedChapterId}
+                selectConsequenceChoice={selectConsequenceChoice}
+              />
+            )}
+            {screen === 'second_choice' && (
+              <SecondChoicePage
+                lang={lang}
+                playSynthSound={playSynthSound}
+                setScreen={setScreen}
+                currentMiloExpression={currentMiloExpression}
+                currentUsername={currentUsername}
+                stats={stats}
+                headlineChoice={headlineChoice}
+                sourceChoice={sourceChoice}
+                secondChoice={secondChoice}
+                selectedChapterId={selectedChapterId}
+              />
+            )}
+            {screen === 'final_reflection' && (
+              <FinalReflectionPage
+                lang={lang}
+                setScreen={setScreen}
+                selectedChapterId={selectedChapterId}
+                stats={stats}
+                handleSaveReflection={handleSaveReflection}
+              />
+            )}
+            {screen === 'chapters' && (
+              <ChaptersPage 
+                lang={lang} 
+                playSynthSound={playSynthSound} 
+                setScreen={setScreen} 
+                savedReflections={savedReflections} 
+                setActiveDiaryReflection={setActiveDiaryReflection} 
+                handleResetProgress={handleResetProgress}
+                badgeImage={badgeImage}
+              />
+            )}
+          </AnimatePresence>
+        </div>
       </main>
     </div>
   );

@@ -60,7 +60,8 @@ export const FinalReflectionPage: React.FC<FinalReflectionPageProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="w-full"
+      /* ⚡ Diperbarui: Px & Py disesuaikan untuk mode landscape HP ⚡ */
+      className="w-full max-w-4xl mx-auto px-2 landscape:px-0 py-2 landscape:py-1"
     >
       {/* Mengirimkan data teks lokal langsung ke komponen kartu */}
       <ReflectionCard

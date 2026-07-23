@@ -133,7 +133,7 @@ export const FeedOutcomePage: React.FC<FeedOutcomePageProps> = ({
   // Ambil data dialog dan naskah terjemahan
   const t = LOCAL_DIALOGS[lang];
 
-  // Mengambil opsi pilihan konsekuensi (dengan fallback jika chapter tidak terdaftar)
+  // Mengambil opsi pilihan konsekuensi
   const currentChapterOptions = LOCAL_CHAPTERS_DETAILS[selectedChapterId]?.options[lang] ||
     LOCAL_CHAPTERS_DETAILS['chaos_catalyst'].options[lang];
 
@@ -143,13 +143,19 @@ export const FeedOutcomePage: React.FC<FeedOutcomePageProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full max-w-5xl"
+      /* ⚡ Diperbarui: Ditambahkan landscape:grid-cols-12 ⚡ */
+      className="grid grid-cols-1 landscape:grid-cols-12 lg:grid-cols-12 gap-4 landscape:gap-6 lg:gap-8 items-center w-full max-w-5xl mx-auto px-2"
     >
       {/* Kolom Kiri: Reaksi Milo & Tombol Pilihan Tindakan */}
-      <div className="lg:col-span-7 space-y-6">
-        <MiloOtter expression={currentMiloExpression} size={150} className="mx-auto lg:mx-0" />
+      {/* ⚡ Diperbarui: Ditambahkan landscape:col-span-7 ⚡ */}
+      <div className="landscape:col-span-7 lg:col-span-7 space-y-4 landscape:space-y-4 lg:space-y-6">
+        
+        {/* Maskot Milo */}
+        <div className="flex justify-center landscape:justify-start lg:justify-start">
+          <MiloOtter expression={currentMiloExpression} size={110} className="landscape:w-[110px] md:w-[150px]" />
+        </div>
 
-        {/* Balon Dialog Dinamis sesuai Chapter Akun */}
+        {/* Balon Dialog Dinamis */}
         <DialogBubble
           text={
             selectedChapterId === 'chaos_catalyst' ? t.chaosMiloText :
@@ -161,17 +167,17 @@ export const FeedOutcomePage: React.FC<FeedOutcomePageProps> = ({
         />
 
         {/* Kotak Pilihan Konsekuensi */}
-        <div className="bg-white border-2 border-[#1E1915] rounded-2xl p-5 shadow-[4px_4px_0px_0px_#1E1915]">
-          <p className="font-display font-extrabold text-base text-[#1E1915] mb-4">
+        <div className="bg-white border-2 border-[#1E1915] rounded-2xl p-4 landscape:p-4 md:p-5 shadow-[4px_4px_0px_0px_#1E1915]">
+          <p className="font-display font-extrabold text-sm md:text-base text-[#1E1915] mb-3">
             {t.continuePrompt}
           </p>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-2.5">
             {currentChapterOptions.map((opt, i) => (
               <button
                 key={i}
                 onClick={() => selectConsequenceChoice(opt.action)}
-                className={`w-full py-3 px-5 text-left font-sans font-extrabold text-xs md:text-sm rounded-xl border-2 border-[#1E1915] shadow-[3px_3px_0px_0px_#1E1915] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#1E1915] transition-all cursor-pointer ${
+                className={`w-full py-2.5 px-4 text-left font-sans font-extrabold text-xs md:text-sm rounded-xl border-2 border-[#1E1915] shadow-[3px_3px_0px_0px_#1E1915] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_#1E1915] transition-all cursor-pointer ${
                   opt.action === 'continue'
                     ? 'bg-[#E36633] text-white hover:bg-[#D15525]'
                     : opt.action === 'repent'
@@ -188,7 +194,8 @@ export const FeedOutcomePage: React.FC<FeedOutcomePageProps> = ({
       </div>
 
       {/* Kolom Kanan: Tampilan Layar HP berisi Hasil Skor & Serbuan Komentar */}
-      <div className="lg:col-span-5 flex justify-center">
+      {/* ⚡ Diperbarui: Ditambahkan landscape:col-span-5 ⚡ */}
+      <div className="landscape:col-span-5 lg:col-span-5 flex justify-center">
         <PhoneMockup
           lang={lang}
           username={currentUsername}

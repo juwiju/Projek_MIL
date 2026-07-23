@@ -10,7 +10,7 @@ import { PhoneMockup } from '../components/PhoneMockup';
 // ==========================================
 const LOCAL_TEXTS = {
   id: {
-    postIntroText: " SEBAGAI CONTENT CREATOR BARU, KAMU BARU SAJA MENDAPATKAN INFORMASI MENARIK NIH! YUK, SEKARANG WAKTUNYA KAMU MEMBUAT POSTINGAN PERTAMAMU!",
+    postIntroText: "SEBAGAI CONTENT CREATOR BARU, KAMU BARU SAJA MENDAPATKAN INFORMASI MENARIK NIH! YUK, SEKARANG WAKTUNYA KAMU MEMBUAT POSTINGAN PERTAMAMU!",
     btnPrev: "Kembali",
     btnGas: "Gas Posting!"
   },
@@ -45,42 +45,44 @@ export const PostIntroPage: React.FC<PostIntroPageProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full max-w-5xl"
+      /* ⚡ Diperbarui: Ditambahkan landscape:grid-cols-12 ⚡ */
+      className="grid grid-cols-1 landscape:grid-cols-12 lg:grid-cols-12 gap-6 landscape:gap-6 lg:gap-8 items-center w-full max-w-5xl mx-auto px-2"
     >
       {/* Kolom Kiri: Briefing dari Milo */}
-      <div className="lg:col-span-7 space-y-6">
+      {/* ⚡ Diperbarui: Ditambahkan landscape:col-span-7 ⚡ */}
+      <div className="landscape:col-span-7 lg:col-span-7 space-y-4 landscape:space-y-4 md:space-y-6">
         
         {/* CONTAINER POP-OUT MILO DI POJOK KIRI BAWAH KOTAK ORANYE */}
-        <div className="relative pb-6">
+        <div className="relative pb-6 landscape:pb-4">
           {/* Kotak Bubble Oranye */}
           <DialogBubble 
             text={t.postIntroText}
             variant="orange" 
-            className="!pl-14 md:!pl-16" 
+            className="!pl-16 landscape:!pl-16 md:!pl-20" 
           />
 
           {/* Gambar Milo menumpuk di pojok kiri bawah menggunakan komponen MiloOtter bawaan */}
-          <div className="absolute -bottom-10 -left-6 z-20 pointer-events-none">
+          <div className="absolute -bottom-8 landscape:-bottom-6 -left-4 landscape:-left-3 z-20 pointer-events-none">
             <MiloOtter 
               expression={currentMiloExpression} 
-              size={150} 
-              className="drop-shadow-md -rotate-6" 
+              size={120} 
+              className="drop-shadow-md -rotate-6 landscape:scale-90 md:scale-110" 
             />
           </div>
         </div>
 
         {/* Tombol Navigasi */}
-        <div className="flex gap-4 pt-2">
+        <div className="flex gap-3 md:gap-4 pt-1 md:pt-2 justify-center landscape:justify-start">
           <button
             onClick={() => { playSynthSound('click'); setScreen('name_selection'); }}
-            className="px-6 py-3 bg-white text-[#1E1915] font-sans font-bold text-sm rounded-2xl border-2 border-[#1E1915] shadow-[3px_3px_0px_0px_#1E1915] hover:bg-[#FAF6F0] transition cursor-pointer"
+            className="px-5 py-2.5 md:px-6 md:py-3 bg-white text-[#1E1915] font-sans font-bold text-xs md:text-sm rounded-xl md:rounded-2xl border-2 border-[#1E1915] shadow-[3px_3px_0px_0px_#1E1915] hover:bg-[#FAF6F0] transition cursor-pointer"
             id="btn-post-intro-back"
           >
             {t.btnPrev}
           </button>
           <button
             onClick={() => { playSynthSound('slide'); setScreen('choose_headline'); }}
-            className="px-8 py-3 bg-[#1E1915] text-white font-sans font-extrabold text-sm rounded-2xl border-2 border-[#1E1915] shadow-[3px_3px_0px_0px_#8C7662] hover:bg-[#2D2823] transition cursor-pointer flex items-center gap-2"
+            className="px-6 py-2.5 md:px-8 md:py-3 bg-[#1E1915] text-white font-sans font-extrabold text-xs md:text-sm rounded-xl md:rounded-2xl border-2 border-[#1E1915] shadow-[3px_3px_0px_0px_#8C7662] hover:bg-[#2D2823] transition cursor-pointer flex items-center gap-2"
             id="btn-post-intro-gas"
           >
             {t.btnGas} <span>📱</span>
@@ -89,7 +91,8 @@ export const PostIntroPage: React.FC<PostIntroPageProps> = ({
       </div>
 
       {/* Kolom Kanan: Tampilan Layar HP Awal Akun Baru */}
-      <div className="lg:col-span-5 flex justify-center">
+      {/* ⚡ Diperbarui: Ditambahkan landscape:col-span-5 ⚡ */}
+      <div className="landscape:col-span-5 lg:col-span-5 flex justify-center">
         <PhoneMockup
           lang={lang}
           username={currentUsername}
