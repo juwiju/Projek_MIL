@@ -168,26 +168,32 @@ export const SecondChoicePage: React.FC<SecondChoicePageProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full max-w-5xl"
+      /* ⚡ Diperbarui: Ditambahkan landscape:grid-cols-12 ⚡ */
+      className="grid grid-cols-1 landscape:grid-cols-12 lg:grid-cols-12 gap-6 landscape:gap-6 lg:gap-8 items-center w-full max-w-5xl mx-auto px-2"
     >
       {/* Kolom Kiri: Dialog & Pertanyaan Refleksi Milo */}
-      <div className="lg:col-span-7 space-y-6">
-        <MiloOtter expression={currentMiloExpression} size={150} className="mx-auto lg:mx-0" />
+      {/* ⚡ Diperbarui: Ditambahkan landscape:col-span-7 ⚡ */}
+      <div className="landscape:col-span-7 lg:col-span-7 space-y-4 landscape:space-y-4 md:space-y-6">
+        <MiloOtter 
+          expression={currentMiloExpression} 
+          size={120} 
+          className="mx-auto landscape:mx-0 lg:mx-0 landscape:scale-90" 
+        />
 
         <DialogBubble
           text={miloText}
           variant={secondChoice === 'continue' ? 'orange' : 'green'}
         />
 
-        <div className="bg-[#1E1915] text-[#FAF6F0] rounded-2xl p-5 border border-[#1E1915] font-sans font-bold text-sm md:text-base leading-relaxed tracking-normal select-text">
-          <span className="text-[#E36633] text-2xl font-serif mr-1 block">&ldquo;</span>
+        <div className="bg-[#1E1915] text-[#FAF6F0] rounded-xl md:rounded-2xl p-4 landscape:p-4 md:p-5 border border-[#1E1915] font-sans font-bold text-xs landscape:text-xs md:text-base leading-relaxed tracking-normal select-text">
+          <span className="text-[#E36633] text-xl md:text-2xl font-serif mr-1 block">&ldquo;</span>
           {questionText}
         </div>
 
-        <div className="flex justify-end pt-2">
+        <div className="flex justify-center landscape:justify-start pt-1 md:pt-2">
           <button
             onClick={() => { playSynthSound('success'); setScreen('final_reflection'); }}
-            className="px-8 py-3.5 bg-[#E36633] text-white font-sans font-extrabold rounded-2xl border-2 border-[#1E1915] shadow-[4px_4px_0px_0px_#1E1915] hover:bg-[#D15525] transition-all cursor-pointer"
+            className="px-6 py-3 landscape:px-6 landscape:py-2.5 md:px-8 md:py-3.5 bg-[#E36633] text-white font-sans font-extrabold text-xs md:text-base rounded-xl md:rounded-2xl border-2 border-[#1E1915] shadow-[4px_4px_0px_0px_#1E1915] hover:bg-[#D15525] transition-all cursor-pointer flex items-center gap-2"
             id="btn-conseq-next-reflection"
           >
             {lang === 'id' ? "Buka Kartu Refleksi" : "Open Reflection Card"} <span>🛡️</span>
@@ -196,7 +202,8 @@ export const SecondChoicePage: React.FC<SecondChoicePageProps> = ({
       </div>
 
       {/* Kolom Kanan: Mockup Layar HP yang Menampilkan Komentar Hasil Pilihan */}
-      <div className="lg:col-span-5 flex justify-center">
+      {/* ⚡ Diperbarui: Ditambahkan landscape:col-span-5 ⚡ */}
+      <div className="landscape:col-span-5 lg:col-span-5 flex justify-center">
         <PhoneMockup
           lang={lang}
           username={currentUsername}

@@ -33,9 +33,8 @@ export const ChaptersPage: React.FC<ChaptersPageProps> = ({
   savedReflections,
   setActiveDiaryReflection,
   handleResetProgress,
-  badgeImage // <-- 1. Ambil prop badgeImage di sini
+  badgeImage
 }) => {
-  // Ambil naskah lokalisasi tombol reset progress
   const t = LOCAL_TEXTS[lang];
 
   return (
@@ -44,13 +43,14 @@ export const ChaptersPage: React.FC<ChaptersPageProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="w-full"
+      /* ⚡ Tambahkan max-w-5xl mx-auto & px agar konsisten di landscape HP ⚡ */
+      className="w-full max-w-5xl mx-auto px-2 sm:px-4"
     >
       {/* Menampilkan menu galeri chapter dan lencana */}
       <ChapterSelection
         lang={lang}
         savedReflections={savedReflections}
-        badgeImage={badgeImage} // <-- 2. Teruskan prop ke ChapterSelection
+        badgeImage={badgeImage}
         onBackToHome={() => {
           playSynthSound('click');
           setScreen('home');
@@ -61,15 +61,15 @@ export const ChaptersPage: React.FC<ChaptersPageProps> = ({
         }}
       />
 
-      {/* Footer Pemicu Reset Progress (Hanya muncul jika sudah ada progress yang tersimpan) */}
+      {/* Footer Pemicu Reset Progress */}
       {savedReflections.length > 0 && (
-        <div className="max-w-4xl mx-auto px-4 mt-8 flex justify-end">
+        <div className="w-full mt-6 sm:mt-8 flex justify-end">
           <button
             onClick={() => {
-              playSynthSound('fail'); // Menggunakan sound effect gagal/peringatan untuk aksi destruktif
+              playSynthSound('fail');
               handleResetProgress();
             }}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-mono font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-300 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-mono font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-300 transition-colors cursor-pointer"
             id="btn-reset-progress"
           >
             <RefreshCw size={12} />
